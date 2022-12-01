@@ -1,0 +1,165 @@
+//---------Theme colors---------
+
+//--------------------------------------------------------------------
+//		****Should be changed with better naming system****
+//--------------------------------------------------------------------
+
+//-----> Will be changed
+$uiPrimary: won-ui-color("uiPrimary");
+$uiAccent: won-ui-color("uiAccent");
+$uiSecondary: won-ui-color("uiSecondary");
+$uiTertiary: won-ui-color("uiTertiary");
+$uiQuaternary: won-ui-color("uiQuaternary");
+
+// global variable 
+// theme's main color palette variations map
+// Major colors' variants are generated firstly by determining 
+// the color is dark or light.
+$main-color-variants: (
+	"dominant": (
+		"base": won-ui-color("uiPrimary"),
+		"200": won-ui-color-variant-by-level("uiPrimary", 2),
+		"400": won-ui-color-variant-by-level("uiPrimary", 4),
+		"600": won-ui-color-variant-by-level("uiPrimary", 6),
+		"800": won-ui-color-variant-by-level("uiPrimary", 8),
+	),
+	"accent": (
+		"base": won-ui-color("uiAccent"),
+		"200": won-ui-color-variant-by-level("uiAccent", 2),
+		"300": won-ui-color-variant-by-level("uiAccent", 3),
+		"400": won-ui-color-variant-by-level("uiAccent", 4),
+		"500": won-ui-color-variant-by-level("uiAccent", 5),
+		"600": won-ui-color-variant-by-level("uiAccent", 6),
+		"700": won-ui-color-variant-by-level("uiAccent", 7),
+		"800": won-ui-color-variant-by-level("uiAccent", 8),
+		"900": won-ui-color-variant-by-level("uiAccent", 9),
+	),
+	"secondary": (
+		"base": won-ui-color("uiSecondary"),
+		"200": won-ui-color-variant-by-level("uiSecondary", 2),
+		"400": won-ui-color-variant-by-level("uiSecondary", 4),
+		"600": won-ui-color-variant-by-level("uiSecondary", 6),
+		"800": won-ui-color-variant-by-level("uiSecondary", 8),
+	)
+);
+// @debug $main-color-variants;
+
+// variables of tints and shades of major colors
+
+// "uiPrimary" shades and tints
+// difference by 10%
+// for Ex: $uiPrimary-t2 -- tinted by 20%
+// for Ex: $uiPrimary-s6 -- shaded by 60%
+$uiPrimary-t10: won-ui-color-tint( "uiPrimary", 10 );
+$uiPrimary-t8: won-ui-color-tint( "uiPrimary", 8 );
+$uiPrimary-t6: won-ui-color-tint( "uiPrimary", 6 );
+$uiPrimary-t4: won-ui-color-tint( "uiPrimary", 4 );
+$uiPrimary-t2: won-ui-color-tint( "uiPrimary", 2 );
+$uiPrimary-t0-s0: won-ui-color-shade( "uiPrimary", 0 );
+$uiPrimary-s2: won-ui-color-shade( "uiPrimary", 2 );
+$uiPrimary-s4: won-ui-color-shade( "uiPrimary", 4 );
+$uiPrimary-s6: won-ui-color-shade( "uiPrimary", 6 );
+$uiPrimary-s8: won-ui-color-shade( "uiPrimary", 8 );
+$uiPrimary-s10: won-ui-color-shade( "uiPrimary", 10 );
+
+// "uiAccent" shades and tints
+$uiAccent-t10: won-ui-color-tint( "uiAccent", 10 );
+$uiAccent-t8: won-ui-color-tint( "uiAccent", 8 );
+$uiAccent-t6: won-ui-color-tint( "uiAccent", 6 );
+$uiAccent-t4: won-ui-color-tint( "uiAccent", 4 );
+$uiAccent-t2: won-ui-color-tint( "uiAccent", 2 );
+$uiAccent-t0-s0: won-ui-color-shade( "uiAccent", 0 );
+$uiAccent-s2: won-ui-color-shade( "uiAccent", 2 );
+$uiAccent-s4: won-ui-color-shade( "uiAccent", 4 );
+$uiAccent-s6: won-ui-color-shade( "uiAccent", 6 );
+$uiAccent-s8: won-ui-color-shade( "uiAccent", 8 );
+$uiAccent-s10: won-ui-color-shade( "uiAccent", 10 );
+
+// "uiSecondary" shades and tints
+$uiSecondary-t10: won-ui-color-tint( "uiSecondary", 10 );
+$uiSecondary-t8: won-ui-color-tint( "uiSecondary", 8 );
+$uiSecondary-t6: won-ui-color-tint( "uiSecondary", 6 );
+$uiSecondary-t4: won-ui-color-tint( "uiSecondary", 4 );
+$uiSecondary-t2: won-ui-color-tint( "uiSecondary", 2 );
+$uiSecondary-t0-s0: won-ui-color-shade( "uiSecondary", 0 );
+$uiSecondary-s2: won-ui-color-shade( "uiSecondary", 2 );
+$uiSecondary-s4: won-ui-color-shade( "uiSecondary", 4 );
+$uiSecondary-s6: won-ui-color-shade( "uiSecondary", 6 );
+$uiSecondary-s8: won-ui-color-shade( "uiSecondary", 8 );
+$uiSecondary-s10: won-ui-color-shade( "uiSecondary", 10 );
+
+// Use this file to overwrite the basic Bootstrap variables and add your own variables
+// To overwrite a Bootstrap variable you don´t have to touch the Bootstrap folder.
+// Just copy a variable from src/sass/bootstrap4/_variables.scss, paste it here and edit the value.
+$primary: 		$uiPrimary-t0-s0 !default;
+$secondary: 	$uiSecondary-t0-s0 !default;
+$success:       $uiAccent-t2 !default;
+$info:          won-ui-color-tint( "uiTertiary", 4 ) !default;
+$warning:       won-ui-color-tint( "uiTertiary", 0 ) !default;
+$danger:        won-ui-color-tint( "uiQuaternary", 2 ) !default;
+$light:         won-ui-color-tint( "uiAccent", 9 ) !default;
+$dark:          won-ui-color-shade( "uiAccent", 9 ) !default;
+
+
+// ---- for use in mixins and other style generating files----
+// Helper function to get two level depth ma of color variants' map
+// which is basically used to get $main-color-variants map of theme's color variables
+// @function 
+// won-ui-get-color-variant-map( $color-variants-map: $main-color-variants, 
+// $color-key: "dominant", $variant-key: "600" )
+// Can be used independently or in other functions and mixins
+// for EX: won-ui-get-color-variant-map($main-color-variants, "accent", "400")
+@function won-ui-get-color-variant-map( $color-variants-map, $color-key, $variant-key ) {
+	@return map-get( map-get( $color-variants-map, $color-key ), $variant-key );
+}
+
+// ----theme colors of major page sections-------
+// body color
+$wonui-body-bg: won-ui-get-color-variant-map( $main-color-variants, "accent", "900" );
+// navbar
+$dark-navbar-bg: won-ui-get-color-variant-map( $main-color-variants, "dominant", "base" );
+$light-navbar-bg: won-ui-get-color-variant-map( $main-color-variants, "dominant", "800" );
+
+// $light-article-block: mix( $rootWhite, $wonui-body-bg, 30% );
+$light-article-block: mix( $rootWhite, $wonui-body-bg, 40% );
+$light-sidebar-block: $uiAccent-t8;
+// footer background-color
+$footer-dark-bg: won-ui-get-color-variant-map( $main-color-variants, "accent", "200" );
+$footer-light-bg: won-ui-get-color-variant-map( $main-color-variants, "accent", "800" );
+
+
+// color vars for footer
+// $footer-dark-bg-link: won-ui-color("uiTertiary");
+$footer-dark-bg-link: won-ui-harmonic-fgcolor( $footer-dark-bg, "AA", 16, false );
+// $footer-light-bg-link: won-ui-color("uiQuaternary");
+$footer-light-bg-link: won-ui-harmonic-fgcolor( $footer-light-bg, "AA", 16, false );
+
+
+// -----Background gradient color mixins------------
+@mixin wonui-simple-two-colors-linear-gradient( $color1: $uiPrimary, $color2: $uiSecondary ) {
+	background: linear-gradient( $color1, $color2 );
+}
+// example
+// background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+//             linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+//             linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+@mixin wonui-three-colors-directional-gradient($direction1: 220deg, $color1: $uiPrimary-t0-s0, $stop-color1: $uiPrimary-s8, $direction2: 120deg, $color2: $uiAccent-t0-s0, $stop-color2: $uiAccent-s8, $direction3: 320deg, $color3: $uiSecondary-t0-s0, $stop-color3: $uiSecondary-s8, $percent-change: 72%, $alpha: 0.8) {
+	background: linear-gradient($direction1, rgba($color1, $alpha), rgba($stop-color1,0) $percent-change),
+            	linear-gradient($direction2, rgba($color2, $alpha), rgba($stop-color2,0) $percent-change),
+            	linear-gradient($direction3, rgba($color3, $alpha), rgba($stop-color3,0) $percent-change);
+}
+@mixin wonui-gradient-directional($start-color: $root-gray-7, $end-color: $root-gray-8, $deg: 45deg) {
+	background-image: linear-gradient($deg, $start-color, $end-color);
+}
+
+@mixin wonui-gradient-x-three-colors($start-color: $uiPrimary, $mid-color: $uiAccent, $color-stop: 50%, $end-color: $uiSecondary) {
+	background-image: linear-gradient(to right, $start-color, $mid-color $color-stop, $end-color);
+}
+
+@mixin wonui-gradient-y-three-colors($start-color: $uiPrimary, $mid-color: $uiAccent, $color-stop: 50%, $end-color: $uiSecondary) {
+	background-image: linear-gradient($start-color, $mid-color $color-stop, $end-color);
+}
+
+@mixin wonui-gradient-radial($inner-color: $root-gray-7, $outer-color: $root-gray-8) { 
+	background-image: radial-gradient(circle, $inner-color, $outer-color);
+}

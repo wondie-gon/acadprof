@@ -1,0 +1,82 @@
+// ---all scss variables for the won ui theming---
+// custom color variables extracted using color harmony tool
+// at https://colordesigner.io/
+// main color -- light indigo
+$prime-color: #013dad;
+// analogous to main color
+$prime-analogous1: #1b01ad;
+$prime-analogous2: #7101ad;
+// harmony complementary to main color
+$harmony-complementary: #ad7101; 
+// harmony square to main color
+$harmony-square: #ad0193;
+
+// ---Global gray color vars----
+// $color-intensity-interval: 10%;
+$gray-base: #8EC7D2;
+$rootWhite: mix( #ffffff, $gray-base, 10 * $color-intensity-interval ) !default;
+$root-gray-1: mix( #ffffff, $gray-base, 8 * $color-intensity-interval ) !default;
+$root-gray-2: mix( #ffffff, $gray-base, 6 * $color-intensity-interval ) !default;
+$root-gray-3: mix( #ffffff, $gray-base, 4 * $color-intensity-interval ) !default;
+$root-gray-4: mix( #ffffff, $gray-base, 2 * $color-intensity-interval ) !default;
+$root-gray-5: $gray-base !default;
+$root-gray-6: mix( #000000, $gray-base, 2 * $color-intensity-interval ) !default;
+$root-gray-7: mix( #000000, $gray-base, 4 * $color-intensity-interval ) !default;
+$root-gray-8: mix( #000000, $gray-base, 6 * $color-intensity-interval ) !default;
+$root-gray-9: mix( #000000, $gray-base, 8 * $color-intensity-interval ) !default;
+$rootDark: mix( #000000, $gray-base, 10 * $color-intensity-interval ) !default;
+
+// ---Default color vars----
+// Analogous color group
+$wUiFirstColor: $prime-color !default;
+$wUiSecondColor: $prime-analogous1 !default; 
+$wUiThirdColor: $prime-analogous2 !default;
+$wUiFourthColor: $harmony-complementary !default;
+$wUiFifthColor: $harmony-square !default;
+
+// theme's color vars map
+$won-ui-colors: () !default;
+
+$won-ui-colors: map-merge(
+	(
+		"uiPrimary": $wUiFirstColor,
+		"uiAccent": $wUiSecondColor,
+		"uiSecondary": $wUiThirdColor,
+		"uiTertiary": $wUiFourthColor,
+		"uiQuaternary": $wUiFifthColor
+	),
+	$won-ui-colors
+);
+
+$major-color-variants: () !default;
+
+$variant-keys: base, one, two, three, four;
+$major-color-names: uiPrimary, uiAccent, uiSecondary, uiTertiary, uiQuaternary;
+$color-variant-key: base !default;
+
+
+// ---Opacity and transparency---
+// default opacity for lighter colors (0.8) and darker colors (0.4) 
+$alpha-light: 0.8 !default;
+$alpha-dark: 0.4 !default;
+
+$won-ui-opacity: (
+  'light': $alpha-light, 
+  'dark': $alpha-dark
+);
+
+
+// global fgcolors
+$won-ui-root-dark: $root-gray-9;
+$won-ui-root-light: $rootWhite;
+
+
+// ----block elements defaul vars-----
+$theDefaultRad: 3rem;
+// modal box radius
+$wonUiModalRad: $theDefaultRad;
+
+// bg imgs for various components
+$mainPgWrapperBgSrc1: '../assets/images/stacked-middle-none.svg';
+$sectionWrapperBgSrc1: '../assets/images/world-map-circles.svg';
+$formBgSrc: '../assets/images/form-bg.svg';

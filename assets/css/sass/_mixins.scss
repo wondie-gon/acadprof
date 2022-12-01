@@ -1,0 +1,563 @@
+//------------------IMPORTANT NOTE----------------------------------------------------------------------
+// The main objective of the whole sass functionality is to create a design system which will be 
+// reusable for various projects.
+//
+// ***Color Palette System*** is one of the essential functionalities of this system. It is to create
+// an automatic color palette for text and other foreground color that has acceptable contrast ratio
+// based on given background colors. The idea is to have initial color variables as few as possible 
+// and automatically generate suitable color palettes for different sections and components of 
+// web pages. 
+//
+// Currently (until Feb 10, 2022) the following @mixin functions are working using
+//
+// generating fgcolor based on required contrast ratio for given color, font-size and font-weight
+// @mixin wonui-contrast-computed-bg-and-fg($givenClr, $level: "AA", $size: 16, $bold: false)
+// 
+// for default contrasted fgcolors
+// @mixin ui-primary-default-contrasted-clr()
+// @mixin ui-accent-default-contrasted-clr
+// 
+// 
+// This can be used as reference to apply the same functionality for styling other sections.
+//-------END----------IMPORTANT NOTE----------------------------------------------------------------------
+
+
+// ---All mixins for won-ui---
+
+// imorting svg mixins
+@import "svg-mixins";
+
+// @mixin to set background-image for 
+// ------pages, sections, blocks----
+@mixin wonUiBasicImgConstructor($bg-img-src) {
+	background-image: url($bg-img-src); 
+	background-repeat: no-repeat;
+}
+
+// @mixin 
+// ui-primary-default-contrasted-clr($color-name, $dark: $won-ui-root-dark, $light: $won-ui-root-light)
+// Used: mostly to generate default contrasted text colors without using won-ui-harmonic-fgcolor function
+// for blocks, sections, etc
+@mixin ui-primary-default-contrasted-clr($color-name: "uiPrimary", $dark: $won-ui-root-dark, $light: $won-ui-root-light) {
+	// get actual color value
+	$given-clr: won-ui-color($color-name);
+	background-color: $given-clr;
+	color: won-ui-contrasted-color($given-clr);
+}
+
+// @mixin 
+// ui-accent-default-contrasted-clr($color-name, $dark: $won-ui-root-dark, $light: $won-ui-root-light)
+// Used: mostly to generate default contrasted text colors without using won-ui-harmonic-fgcolor function
+// for blocks, sections, etc
+@mixin ui-accent-default-contrasted-clr($color-name: "uiAccent", $dark: $won-ui-root-dark, $light: $won-ui-root-light) {
+	// get actual color value
+	$given-clr: won-ui-color($color-name);
+	background-color: $given-clr;
+	color: won-ui-contrasted-color($given-clr);
+}
+
+
+// main page wrapper with bg img
+@mixin wonUiPageMainWrapperWithBgImg($bg-clr, $clr, $bg-img-src) {
+	background-color: $bg-clr;
+	color: $clr;
+	@include wonUiBasicImgConstructor($bg-img-src);
+}
+
+// @mixin wonui-contrast-computed-bg-and-fg($bg-clr, $level, $size, $bold)
+// This will generate css properties of background-color and color by computing 
+// the fgcolor with suitable contrast ratio based on 
+// $bg-clr: the desired bgcolor in actual color value
+// $level: The required contrast level based on WCAG 2.1
+// 'AA' (minimum) at least contrast ratio 4.5:1 for regular sized text or 
+//		3:1 for large scale (24px) or bold (18.5px)
+// 'AAA' (enhanced) at least 7:1 for regular sized text or 
+// 		4.5:1 for large scale (24px) or bold (18.5px)
+// 'AA' At least 3:1 for Non-text visual ui components
+// (including focus states, borders) and graphical objects contrasted with adjacent colors  
+// $size: font-size of text (unitless) but considering units of EM, REM, or PX (preferred)
+// $bold: true or false 
+@mixin wonui-contrast-computed-bg-and-fg($bg-clr, $level: "AA", $size: 16, $bold: false) {
+	// generate fgcolor for the desired bg color
+	$generatedFgClr: won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold);
+	// printing bg and fg color
+	background-color: $bg-clr;
+	color: $generatedFgClr;
+}
+// Background-color and color for light bg blocks
+// @mixin wonui-contrast-computed-light-bg-and-fg( 
+//	$light-bg, $level: "AA", $size: 16, $bold: false, $darken-level: 2 )
+// To generate background-color and color css properties for light background color
+// Similar with above but darkens generated color to differentiate from link colors
+// by passed $darken-level, which will be multiplied by $color-intensity-interval: 10
+// and mix with $rootDark
+@mixin wonui-contrast-computed-light-bg-and-fg( $light-bg, $level: "AA", $size: 16, $bold: false, $darken-level: 2 ) {
+	// generate fgcolor
+	$fg-result: won-ui-harmonic-fgcolor( $light-bg, $level, $size, $bold );
+	// darken for text color
+	$dark-txt-clr: mix( $rootDark, $fg-result, $darken-level * $color-intensity-interval );
+	// generate bg and fg color
+	background-color: $light-bg;
+	color: $dark-txt-clr;
+}
+
+// Background-color and color for dark bg blocks
+// @mixin wonui-contrast-computed-dark-bg-and-fg( 
+//	$dark-bg, $level: "AA", $size: 16, $bold: false, $lighten-level: 2 )
+// To generate background-color and color css properties for dark background color
+// Lightens generated color to differentiate from link colors
+// by passed $lighten-level, which will be multiplied by $color-intensity-interval: 10
+// and mix with $rootWhite
+@mixin wonui-contrast-computed-dark-bg-and-fg( $dark-bg, $level: "AA", $size: 16, $bold: false, $lighten-level: 2 ) {
+	// generate fgcolor
+	$fg-result: won-ui-harmonic-fgcolor( $dark-bg, $level, $size, $bold );
+	// lighten for text color
+	$light-txt-clr: mix( $rootWhite, $fg-result, $lighten-level * $color-intensity-interval );
+	// generate bg and fg color
+	background-color: $dark-bg;
+	color: $light-txt-clr;
+}
+// @mixin won-ui-contrast-ratio-computed-fg($bg-clr, $has-hover, $level, $size, $bold)
+// works almost similar to the above mixin. 
+// However, this will generate css property of only color by computing 
+// its value with suitable contrast ratio based on 
+// $bg-clr: currently used bgcolor in actual color value of the html element
+// and by using @function won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold)
+// if $has-hover is true (its default), css proerty of color includes the after effects
+// of user's hover, focus actions
+@mixin won-ui-contrast-ratio-computed-fg( $bg-clr, $has-hover: true, $level: "AA", $size: 16, $bold: false ) {
+	// compute for appropraitely contrasted text color
+	$txt-clr: won-ui-harmonic-fgcolor( $bg-clr, $level, $size, $bold );
+	// get color hover from what would be hover background-color
+	$txt-clr-hover: won-ui-harmonic-fgcolor( mix( $rootDark, $bg-clr, 20% ), $level, $size, $bold );
+	// generate css property
+	color: $txt-clr;
+	@if $has-hover == true {
+		&:hover,
+		&:focus,
+		&:visited {
+			color: $txt-clr-hover;
+		}
+	} 
+}
+
+// Function to be used for computing fill color of svg elements
+// @mixin won-ui-contrast-ratio-computed-svg-fill($bg-clr, $has-hover, $level, $size, $bold)
+// works almost similar to the above mixin. 
+// However, this will generate css property of fill by computing
+// its value with harmonic contrast ratio based on 
+// $bg-clr: currently used bgcolor in actual hexadecimal color value of the html element
+// and by using @function won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold)
+// if $has-hover is true (its default), css proerty of fill includes the after effects
+// of user's hover, focus actions
+@mixin won-ui-contrast-ratio-computed-svg-fill( $bg-clr, $has-hover: true, $level: "AAA", $size: 32, $bold: true ) {
+	// compute for appropraitely contrasted fill color
+	$fill-clr: won-ui-harmonic-fgcolor( $bg-clr, $level, $size, $bold );
+	// get hover color of fg from what would be hover background-color
+	$fill-clr-hover: won-ui-harmonic-fgcolor( mix( $rootDark, $bg-clr, 20% ), $level, $size, $bold );
+	// generate css property
+	fill: $fill-clr;
+	@if $has-hover == true {
+		&:hover,
+		&:focus,
+		&:visited {
+			fill: $fill-clr-hover;
+		}
+	} 
+}
+
+// minimal box shadow
+@mixin wonui-minimal-box-shadow($shadow-clr) {
+	-webkit-box-shadow: 0 2px 3px 0 rgba($shadow-clr, 0.1), 0 2px 8px 0 rgba($shadow-clr, 0.1);
+	-moz-box-shadow: 0 2px 3px 0 rgba($shadow-clr, 0.1), 0 2px 8px 0 rgba($shadow-clr, 0.1);
+  	box-shadow: 0 2px 3px 0 rgba($shadow-clr, 0.1), 0 2px 8px 0 rgba($shadow-clr, 0.1);
+}
+
+// ---browser compatibility prefix mixin---
+// Ex.
+// .btn {
+//		@include browser-prefix(border-radius, 1rem, moz webkit);
+// }
+@mixin browser-prefix($property, $value, $prefixes) {
+	@each $prefix in $prefixes {
+		-#{$prefix}-#{$property}: $value;
+	}
+	#{$property}: $value;
+}
+
+// before hover box shadow
+@mixin wonUiBeforeHoverShadow($clrHexVar) {
+	-webkit-box-shadow: 0 2px 3px 0 rgba($clrHexVar, 0.1), 0 2px 8px 0 rgba($clrHexVar, 0.1);
+	-moz-box-shadow: 0 2px 3px 0 rgba($clrHexVar, 0.1), 0 2px 8px 0 rgba($clrHexVar, 0.1);
+  	box-shadow: 0 2px 3px 0 rgba($clrHexVar, 0.1), 0 2px 8px 0 rgba($clrHexVar, 0.1);
+}
+// on hover box shadow
+@mixin wonUiOnHoverShadow($clrHexVar) {
+	-webkit-box-shadow: 0 4px 6px 0 rgba($clrHexVar, 0.3), 0 4px 10px 0 rgba($clrHexVar, 0.3);
+	-moz-box-shadow: 0 4px 6px 0 rgba($clrHexVar, 0.3), 0 4px 10px 0 rgba($clrHexVar, 0.3);
+	box-shadow: 0 4px 6px 0 rgba($clrHexVar, 0.3), 0 4px 10px 0 rgba($clrHexVar, 0.3);
+}
+// smooth fancy shadow effect
+// var should have value of clr hex codes
+@mixin wonUiSmoothFancyShadow($clrHexVar) {
+  -webkit-box-shadow: 0 2.8px 2.2px rgba($clrHexVar, 0.034), 0 6.7px 5.3px rgba($clrHexVar, 0.048), 0 12.5px 10px rgba($clrHexVar, 0.06), 0 22.3px 17.9px rgba($clrHexVar, 0.072), 0 41.8px 33.4px rgba($clrHexVar, 0.086), 0 100px 80px rgba($clrHexVar, 0.12);
+  -moz-box-shadow: 0 2.8px 2.2px rgba($clrHexVar, 0.034), 0 6.7px 5.3px rgba($clrHexVar, 0.048), 0 12.5px 10px rgba($clrHexVar, 0.06), 0 22.3px 17.9px rgba($clrHexVar, 0.072), 0 41.8px 33.4px rgba($clrHexVar, 0.086), 0 100px 80px rgba($clrHexVar, 0.12);
+  box-shadow: 0 2.8px 2.2px rgba($clrHexVar, 0.034), 0 6.7px 5.3px rgba($clrHexVar, 0.048), 0 12.5px 10px rgba($clrHexVar, 0.06), 0 22.3px 17.9px rgba($clrHexVar, 0.072), 0 41.8px 33.4px rgba($clrHexVar, 0.086), 0 100px 80px rgba($clrHexVar, 0.12);
+}
+
+//-----------flex items alignment horizontally-------
+// flex contents horizontally collected at start
+@mixin flexContentsHorizontallyOnStart {
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	-moz-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+}
+// horizontally justified contents in flex
+@mixin flexContentsHorizontallyJustified {
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	-moz-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+// horizontally distributed contents in flex
+@mixin flexContentsHorizontallyDistributed {
+	-webkit-justify-content: space-around;
+	-ms-flex-pack: distribute;
+	justify-content: space-around;
+}
+
+// flex contents horizontally collected on center
+@mixin flexContentsHorizontallyOnCenter {
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-moz-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+// flex contents horizontally collected at end
+@mixin flexContentsHorizontallyFarEnd {
+	-webkit-box-pack: end;
+	-webkit-justify-content: flex-end;
+	-moz-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+}
+
+//----blocks, cards, columns----
+// blocks padding and margin styles
+@mixin wonUiBlocksPaddingAndMargins($p_left, $p_top, $p_right, $p_bottom, $margBot) {
+    padding-left: $p_left;
+    padding-top: $p_top;
+    padding-right: $p_right;
+    padding-bottom: $p_bottom;
+    margin-bottom: $margBot;
+}
+
+@mixin wonUiColumnVerticalPaddings($p_top, $p_bottom) {
+    padding-top: $p_top;
+    padding-bottom: $p_bottom;
+}
+
+//-----border radius------
+@mixin roundedBrdrRadSingleValue($single-rad) {
+	-moz-border-radius: $single-rad;
+	-webkit-border-radius: $single-rad;
+	border-radius: $single-rad;
+}
+@mixin roundedBrdrRadFourValues($tlr, $trr, $brr, $blr) {
+	-moz-border-radius: $tlr $trr $brr $blr;
+	-webkit-border-radius: $tlr $trr $brr $blr;
+	border-radius: $tlr $trr $brr $blr;
+}
+@mixin wonUiRoundedInnerTop($parentRad, $important: false) {
+	border-top-left-radius: -webkit-calc(#{$parentRad} - 1px) is-important($important);
+	border-top-left-radius: -moz-calc(#{$parentRad} - 1px) is-important($important);
+	border-top-left-radius: calc(#{$parentRad} - 1px) is-important($important);
+	border-top-right-radius: -webkit-calc(#{$parentRad} - 1px) is-important($important);
+	border-top-right-radius: -moz-calc(#{$parentRad} - 1px) is-important($important);
+	border-top-right-radius: calc(#{$parentRad} - 1px) is-important($important);
+}
+
+@mixin wonUiRoundedInnerBottom($parentRad, $important: false) {
+	border-bottom-right-radius: -webkit-calc(#{$parentRad} - 1px) is-important($important);
+	border-bottom-right-radius: -moz-calc(#{$parentRad} - 1px) is-important($important);
+	border-bottom-right-radius: calc(#{$parentRad} - 1px) is-important($important);
+	border-bottom-left-radius: -webkit-calc(#{$parentRad} - 1px) is-important($important);
+	border-bottom-left-radius: -moz-calc(#{$parentRad} - 1px) is-important($important);
+	border-bottom-left-radius: calc(#{$parentRad} - 1px) is-important($important);
+}
+
+//-----btn styles mixins------
+// btn bg, text color, and shadow
+
+// @mixin wonui-btnbg-txtcolor-and-boxshadow( $bg-hex, $shadow-clr-hex, 'AA', 16, false )
+// This will generate css properties of background-color, color, box-shadow for before and after 
+// user actions of hover and focus on button or similar html elements
+// using @function won-ui-harmonic-fgcolor( $bg-hex, $level: "AA", $size: 16, $bold: false )
+@mixin wonui-btnbg-txtcolor-and-boxshadow( $bg-hex, $shadow-clr-hex, $level: "AA", $size: 16, $bold: false ) {
+	// first compute text color using following function
+	$txt-clr: won-ui-harmonic-fgcolor( $bg-hex, $level, $size, $bold );
+	// darken background-color after user hovering
+	$bg-hex-hover: mix( $rootDark, $bg-hex, 20% );
+	// lighten text color after user hovering
+	// $txt-clr-hover: mix( $rootWhite, $txt-clr, 20% );
+	$txt-clr-hover: won-ui-harmonic-fgcolor( $bg-hex-hover, $level, $size, $bold );
+
+	// generating css properties
+	background-color: $bg-hex;
+	color: $txt-clr;
+	@include wonUiBeforeHoverShadow( $shadow-clr-hex );
+	&:hover,
+  	&:focus,
+  	&:visited {
+  		background-color: $bg-hex-hover;
+	    color: $txt-clr-hover;
+	    outline: 0;
+	    @include wonUiOnHoverShadow( $shadow-clr-hex );
+  	}
+}
+
+// mixin for buttons coloring styles
+@mixin wonUiButtonSecondaryDarkBg {
+	@include wonui-btnbg-txtcolor-and-boxshadow( $uiSecondary, $rootDark, "AA", 16, false );
+}
+
+@mixin wonUiButtonPrimaryDarkBg {
+	@include wonui-btnbg-txtcolor-and-boxshadow( $uiPrimary, $rootDark, "AA", 16, false );
+}
+@mixin wonUiButtonAltDarkBg {
+	// first get color variant from $main-color-variants map for alt background-color of button
+	$btn-alt-bg: won-ui-get-color-variant-map( $main-color-variants, "accent", "500" );
+	@include wonui-btnbg-txtcolor-and-boxshadow( $btn-alt-bg, $rootDark, "AA", 16, false );
+}
+
+// btn transition mixin 
+@mixin wonUiButtonTransition( $time, $tFunc ) {
+	-webkit-transition: color $time $tFunc,background-color $time $tFunc,box-shadow $time + 0.2 $tFunc;
+	-moz-transition: color $time $tFunc,background-color $time $tFunc,box-shadow $time + 0.2 $tFunc;
+	-ms-transition: color $time $tFunc,background-color $time $tFunc,box-shadow $time + 0.2 $tFunc;
+	-o-transition: color $time $tFunc,background-color $time $tFunc,box-shadow $time + 0.2 $tFunc;
+	transition: color $time $tFunc,background-color $time $tFunc,box-shadow $time + 0.2 $tFunc;
+}
+
+//------custom bs modal box styles mixins----
+@mixin wonUiModalContentWithOutBgImg($bg-clr, $brdr) {
+	background-color: $bg-clr;
+	border: $brdr !important;
+}
+@mixin wonUiModalContentWithBgImg($bg-clr, $bg-img-src, $brdr) {
+	background-color: $bg-clr;
+	@include wonUiBasicImgConstructor($bg-img-src);
+	border: $brdr !important;
+}
+
+@mixin wonUiModalHeaderBottomBrdr($brdr-btm) {
+	border-bottom: $brdr-btm;
+}
+
+@mixin wonUiModalFooterTopBrdr($brdr-top) {
+	border-top: $brdr-top;
+}
+
+//-------element transform functions--------------------
+// 2d translate
+// $tx: Is a <length> representing the abscissa of the translating vector.
+// $ty: Is a <length> representing the ordinate of the translating vector.
+@mixin translate-two-d($tx, $ty) {
+  transform: translate($tx, $ty);
+}
+
+// 3d translate
+// $tx: Is a <length> representing the abscissa of the translating vector.
+// $ty: Is a <length> representing the ordinate of the translating vector.
+// $tz: Is a <length> representing the z component of the translating vector. 
+// $tz can't be a <percentage> value; in that case the property containing the transform is considered invalid.
+@mixin translate-three-d($tx, $ty, $tz) {
+  	transform: translate3d($tx, $ty, $tz);
+}
+
+// translateX
+@mixin translate-on-x($tx) {
+  	transform: translateX($tx);
+}
+
+// translateY
+@mixin translate-on-y($ty) {
+  	transform: translateY($ty);
+}
+
+// translateZ
+// $perspective: defines a transformation that sets 
+// 				the distance between the user and the z=0 plane.
+@mixin translate-on-z($tz, $perspective: '') {
+	@if $perspective != '' {
+		transform: perspective($perspective) translateZ($tz);
+	} @else {
+  		transform: translateZ($tz);
+  	}
+}
+
+// translate elements by given direction and amount
+@mixin translate-by-direction($direction, $amount) {
+	@if $direction == up {
+		transform: translateY(-$amount);
+	} @else if $direction == right {
+		transform: translateX($amount);
+	} @else if $direction == down {
+		transform: translateY($amount);
+	} @else if $direction == left {
+		transform: translateX(-$amount);
+	} @else {
+		@error "Unknown direction #{$direction}.";
+	}
+}
+
+//---------------------will be moved to _sections-coloring.scss----------------------------
+// @mixin wonui-header-bg-and-txtcolor( $bg-clr, $level, $size, $bold, $tint-level )
+// to generate background-color and text color using @function 
+// won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold) and a small tinting level 
+// that tints a generated fg color. This is purposely done to make a small variation
+// of text color compared to nav link color.
+@mixin wonui-header-bg-and-txtcolor( $bg-clr, $level, $size, $bold, $tint-level ) {
+	// generate nav text color
+	$generated-nav-fg: won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold);
+	// get text color tinted with small level to vary it from link color 
+	$nav-fg-tinted: mix($rootWhite, $generated-nav-fg, $tint-level * $color-intensity-interval);
+	// printing bg and fg color
+	background-color: $bg-clr;
+	color: $nav-fg-tinted;
+}
+
+// navbar brand color with some tint compared to other links of navbar
+@mixin wonui-navbar-brand-clr( $bg-clr, $level: "AAA", $size: 32, $bold: true, $tint-level: 1 ) {
+	// generate nav text color
+	$nav-fg: won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold);
+	// get text color tinted with small level to vary it from link color 
+	$nav-fg-tinted: mix($rootWhite, $nav-fg, $tint-level * $color-intensity-interval);
+	// navbar brand color
+	color: $nav-fg-tinted;
+	&:hover, 
+	&:focus, 
+	&:visited {
+		color: $nav-fg;
+	} 
+}
+
+// generating nav link styles
+@mixin wonui-navbar-navlink( $bg-clr, $level: "AA", $size: 16, $bold: false, $border-rad: 1rem ) {
+	// generate nav link color
+	$link-clr: won-ui-harmonic-fgcolor( $bg-clr, $level, $size, $bold );
+	// get bg color when hovered
+	$link-bg-hover: mix( $rootDark, $bg-clr, 20% );
+	// link color when hovered
+	$link-clr-hover: won-ui-harmonic-fgcolor( $link-bg-hover, $level, $size, $bold );
+
+	color: $link-clr;
+	@include roundedBrdrRadSingleValue( $border-rad );
+	&:hover, 
+	&:focus {
+		background-color: $link-bg-hover;
+		color: $link-clr-hover;
+	}
+	&.active {
+		background-color: $link-bg-hover;
+		color: $link-clr-hover;
+	}
+}
+// navbar dropdown menu
+@mixin wonui-navbar-dropdown-menu( $bg-clr, $level: "AA", $size: 16, $bold: false ) {
+	// generate nav text color
+	$linkclr: won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold);
+	
+	// generate css properties
+	background-color: rgba($bg-clr, 0.8);
+	color: $linkclr;
+	border: 1px solid rgba($bg-clr,.15);
+	-webkit-box-shadow: 0 10px 6px -6px rgba($rootDark, 0.3);
+	-moz-box-shadow: 0 10px 6px -6px rgba($rootDark, 0.3);
+	box-shadow: 0 10px 6px -6px rgba($rootDark, 0.3);
+}
+// page main content area bg and text colors
+@mixin won-ui-main-contents-area-bg-fgcolor {
+	// desired bg for content area
+	$main-area-bg: lighten($uiPrimary, 40%);
+	// level ("AA"), font-size (16), font boldness (false)
+	@include wonui-contrast-computed-bg-and-fg($main-area-bg);
+}
+
+
+// style for light bg features block
+@mixin light-features-block-on-main {
+	// bg lighter than main content area bg
+	$block-light-bg: won-ui-color-variant-by-level("uiPrimary", 8);
+	// block content fgcolor
+	$blockFgClr: won-ui-harmonic-fgcolor($block-light-bg);
+	// title color
+	$block-title-color: won-ui-harmonic-fgcolor($block-light-bg, "AAA", 32, bold);
+
+	// icon color on $blockFgClr box bg
+	$icon-clr: won-ui-harmonic-fgcolor($blockFgClr);
+
+	// block bg and fg
+	background-color: $block-light-bg;
+	color: $blockFgClr;
+	@include wonUiColumnVerticalPaddings(1rem, 1rem);
+	// icon box
+	& .icon-bg-dark {
+		background-color: $blockFgClr;
+		color: $icon-clr;
+		&.feature-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 4rem;
+			height: 4rem;
+			margin-bottom: 1rem;
+			font-size: 2rem;
+			color: $icon-clr;
+			@include roundedBrdrRadSingleValue(1rem);
+			& .svg-icons {
+				vertical-align: -0.125em;
+				fill: $icon-clr;
+			}
+		}
+	}
+	& .block-title {
+		color: $block-title-color;
+	}
+}
+
+// dark bg block on main contents area
+@mixin won-ui-dark-block-on-main {
+	// bg darker than main content area bg
+	$block-dark-bg: won-ui-color-variant-by-level("uiSecondary", 2);
+	@include wonui-contrast-computed-bg-and-fg($block-dark-bg);
+}
+
+// image fitted to parent block
+@mixin imgFittedToBox($imgHeight) {
+	width: 100%;
+	height: $imgHeight;
+	object-fit: cover;
+	object-position: center;
+}
+
+// @mixin wonui-footer-bg-and-txtcolor( $bg-clr, $level, $size, $bold, $tint-level )
+// to generate background-color and text color using @function 
+// won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold) and a small tinting level 
+// that tints a generated fg color. This is purposely done to make a small variation
+// of text color compared to footer link color.
+@mixin wonui-footer-bg-and-txtcolor( $bg-clr, $level, $size, $bold, $tint-level ) {
+	// generate footer text color
+	$generated-footer-fg: won-ui-harmonic-fgcolor($bg-clr, $level, $size, $bold);
+	// get text color tinted with small level to vary it from link color 
+	$footer-fg-tinted: mix($rootWhite, $generated-footer-fg, $tint-level * $color-intensity-interval);
+	// printing bg and fg color
+	background-color: $bg-clr;
+	color: $footer-fg-tinted;
+}

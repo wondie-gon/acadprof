@@ -1,0 +1,733 @@
+/*
+* main generator of custom styles for won ui
+*/
+a {
+    color: $uiPrimary;
+    text-decoration: none;
+}
+// body's class
+.wonui-page {
+	@include wonui-contrast-computed-bg-and-fg( $wonui-body-bg );
+}
+.wonui-header {
+	@include wonui-header-bg-and-txtcolor( $dark-navbar-bg, "AA", 16, true, 2 );
+}
+.wonui-navbar {
+	@include wonui-header-bg-and-txtcolor( $dark-navbar-bg, "AA", 16, false, 2 );
+	& .navbar-brand {
+		@include wonui-navbar-brand-clr( $dark-navbar-bg, "AAA", 32, true, 1 );
+		& a {
+			@include wonui-navbar-brand-clr( $dark-navbar-bg, "AAA", 32, true, 1 );
+		}
+	}
+	& .nav-link {
+		@include wonui-navbar-navlink( $dark-navbar-bg, "AA", 16, false, 0.5rem );
+	}
+	& .dropdown-menu {
+	    @include wonui-navbar-dropdown-menu( $dark-navbar-bg, "AA", 16, false );
+	}
+	& .dropdown-item {
+		@include wonui-navbar-navlink( $dark-navbar-bg, "AA", 16, false, 1rem );
+	}
+	& .navbar-toggler {
+		$toggler-clr: won-ui-harmonic-fgcolor( $dark-navbar-bg, "AAA", 32, true );
+		color: $toggler-clr;
+		border-color: $toggler-clr;
+	}
+	& .navbar-toggler-icon {
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+	}
+}
+
+/*Profile intro section styles*/
+// color vars for profile intro
+$profile-intro-bg: $dark-navbar-bg;
+
+.intro-section {
+  position: relative;
+  @include wonUiHeroStaticSVGPatternBGDefinedColors;
+  background-color: $profile-intro-bg;
+}
+
+.intro-section::before {
+  position: absolute;
+  top: 0;
+  display: block;
+  content: "";
+  height: 50%;
+  width: 100%;
+  z-index: 1;
+}
+
+.intro-section::after {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  content: "";
+  height: 50%;
+  width: 100%;
+  background-color: rgba($profile-intro-bg,0.9);
+  z-index: 2;
+}
+.intro-container {
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  z-index: 3;
+}
+.intro-image {
+  height: auto;
+  @include wonUiSmoothFancyShadow( $rootDark );
+  @include roundedBrdrRadSingleValue( 1rem );
+  margin-left: auto;
+  margin-right: auto;
+}
+.intro-hdr {
+  color: won-ui-harmonic-fgcolor( $profile-intro-bg, "AA", 16, false );
+}
+.profile-social-nav {
+	& .nav-item {
+		background-color: transparent;
+		color: won-ui-harmonic-fgcolor( $profile-intro-bg, "AAA", 32, true );
+		border: none;
+		& .nav-link {
+			@include won-ui-contrast-ratio-computed-fg( $profile-intro-bg, true, "AAA", 32, false );
+		}
+	}
+}
+.intro-txt {
+  color: won-ui-harmonic-fgcolor( $profile-intro-bg, "AA", 16, false );
+  margin-top: 2rem;
+  & p {
+		font-size: 0.875rem;
+	}
+  & .btn {
+  		width: -webkit-fit-content;
+  		width: -moz-fit-content;
+  		width: fit-content;
+  }
+}
+.btn-wonui-intro {
+	$intro-btn-bg: won-ui-harmonic-fgcolor( $profile-intro-bg );
+	@include wonui-btnbg-txtcolor-and-boxshadow( $intro-btn-bg, $rootDark );
+}
+
+@media (min-width: 768px) {
+	.intro-section::after {
+		background-color: rgba($light-article-block,0.9);
+	}
+	.intro-txt {
+		color: won-ui-harmonic-fgcolor( $light-article-block, "AA", 16, false );
+  		& p {
+			font-size: 1rem;
+		}
+	}
+  	.btn-wonui-intro {
+		$intro-btn-bg: won-ui-harmonic-fgcolor( $light-article-block );
+		@include wonui-btnbg-txtcolor-and-boxshadow( $intro-btn-bg, $rootDark );
+	}
+}
+// -----Main content area styles------
+// page main block class
+.wonui-main {
+	@include wonui-contrast-computed-light-bg-and-fg( $wonui-body-bg, "AA", 16, false, 2 );
+	& .page-header {
+		padding: 0.5rem 1rem;
+		@include wonui-gradient-x-three-colors( $uiPrimary, $uiAccent, 30%, $uiSecondary );
+		color: won-ui-harmonic-fgcolor( $uiPrimary, "AAA", 40, true );
+		@include wonui-minimal-box-shadow( $won-ui-root-dark );
+		@include roundedBrdrRadFourValues( 0.65rem, 0.65rem, 0, 0 );
+		& .page-title {
+			color: won-ui-harmonic-fgcolor( $uiPrimary, "AAA", 40, true );
+		}
+	}
+}
+
+.article-block, 
+.single-article-block {
+	@include wonui-contrast-computed-light-bg-and-fg( $light-article-block, "AA", 16, false, 2 );
+	@include wonui-minimal-box-shadow( $won-ui-root-dark );
+	& .entry-title a {
+		@include won-ui-contrast-ratio-computed-fg( $light-article-block, true, "AAA", 32, true );
+	}
+	& .entry-meta {
+		color: won-ui-harmonic-fgcolor( $light-article-block, "AA", 16, false );
+		& a {
+			@include won-ui-contrast-ratio-computed-fg( $light-article-block );
+		}
+	}
+	& img {
+		@include wonui-minimal-box-shadow( $won-ui-root-dark );
+		@include roundedBrdrRadFourValues( 0.65rem, 0.65rem, 0.65rem, 0.65rem );
+	}
+}
+.article-block {
+	padding: 1rem;
+	margin-bottom: 3rem;
+	@include roundedBrdrRadFourValues( 0.65rem, 0.65rem, 0.65rem, 0.65rem );
+}
+.single-article-block {
+	padding: 1rem;
+	margin-bottom: 2rem;
+	@include roundedBrdrRadFourValues( 0.65rem, 0.65rem, 0.65rem, 0.65rem );
+}
+.entry-footer {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+.entry-footer span, 
+.wonui-badge-comments, 
+.wonui-badge-cats, 
+.wonui-badge-tags {
+	padding-left: 0;
+    padding-top: 0.375rem;
+    padding-right: 1rem;
+    padding-bottom: 0.375rem;
+    margin-bottom: 1rem;
+}
+.wonui-badge-tags {
+	line-height: 2.5;
+}
+.comments-link,
+.comments-link.wonui-badge-comments {
+	// first get color variant from $main-color-variants map for background-color of span element.
+	$span-bg: won-ui-get-color-variant-map( $main-color-variants, "accent", "500" );
+	@include wonui-btnbg-txtcolor-and-boxshadow( $span-bg, $rootDark, 'AA', 16, false );
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+	& a {
+		padding-left: 1rem;
+		@include won-ui-contrast-ratio-computed-fg( $span-bg );
+	}
+}
+.cat-links,
+.cat-links.wonui-badge-cats {
+	& a {
+		padding: 0.25rem;
+		@include roundedBrdrRadSingleValue(0.375rem);
+		@include wonui-btnbg-txtcolor-and-boxshadow( $uiSecondary, $rootDark, 'AA', 16, false );
+	}
+}
+.tags-links,
+.tags-links.wonui-badge-tags {
+	& a {
+		padding: 0.25rem;
+		@include roundedBrdrRadSingleValue(0.375rem);
+		@include wonui-btnbg-txtcolor-and-boxshadow( $uiQuaternary, $rootDark, 'AA', 16, false );
+	}
+}
+/*@media (min-width: 992px) {
+	.entry-footer {
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+	}
+	.entry-footer span, 
+	.wonui-badge-comments, 
+	.wonui-badge-cats, 
+	.wonui-badge-tags {
+		margin-bottom: 0;
+	}
+}*/
+/**
+* Custom comment form area styles
+*/
+.comments-area {
+  & h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.5;
+    @include wonui-contrast-computed-light-bg-and-fg( $wonui-body-bg, "AA", 16, false, 2 );
+  }
+  & .form-group {
+    color: won-ui-harmonic-fgcolor( $wonui-body-bg, "AA", 16, false );
+    & .required {
+      color: won-ui-harmonic-fgcolor( $wonui-body-bg, "AA", 16, false );
+    }
+    & input:not[type="submit"], 
+    & textarea {
+      padding: 0.25rem;
+      @include wonui-contrast-computed-light-bg-and-fg( $light-article-block, "AA", 16, false, 2 );
+      &:focus {
+        color: won-ui-harmonic-fgcolor( $light-article-block, "AA", 16, false );
+      }
+    }
+    & input {
+      &.form-control {
+        height: calc(1.5rem + 0.5rem + 2px);
+      }
+    }
+    & textarea {
+      &.form-control {
+        height: auto;
+      }
+    }
+    & .form-control {
+      display: block;
+      width: 100%;
+      padding: 0.25rem 0.5rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      background-clip: padding-box;
+      @include wonui-contrast-computed-light-bg-and-fg( $light-article-block, "AA", 16, false, 2 );
+    }
+  }
+  .submit {
+	 @include wonUiButtonSecondaryDarkBg;
+  }
+}
+@media (min-width: 768px) {
+  .comments-area {
+    & .form-group {
+      & .form-control {
+        width: 75%;
+      }
+    }
+  } 
+}
+/*
+* box shadows
+*/
+.fancy-shadow {
+	@include wonUiSmoothFancyShadow($rootDark);
+}
+/*
+* border radius styles
+*/
+.default-rounded-box {
+	@include roundedBrdrRadSingleValue($theDefaultRad);
+}
+.rounded-inner-top {
+	@include wonUiRoundedInnerTop($theDefaultRad, true);
+}
+.rounded-inner-bottom {
+	@include wonUiRoundedInnerBottom($theDefaultRad, true);
+}
+.rounded-control, 
+.rounded-btns, 
+.rounded-badges {
+	@include roundedBrdrRadSingleValue($theDefaultRad);
+}
+/*
+* custom button styles
+*/
+.btn, 
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  @include wonUiButtonTransition( .3s, ease-in-out );
+} 
+.btn-wonui, 
+.btn-primary {
+	@include wonUiButtonPrimaryDarkBg;
+}
+.btn-wonui-alt {
+	@include wonUiButtonAltDarkBg;
+}
+.btn-wonui-secondary, 
+.btn-secondary {
+	@include wonUiButtonSecondaryDarkBg;
+}
+// post navigation styles
+.navigation {
+	&.post-navigation {
+		margin-bottom: 2rem;
+		& .nav-links {
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-webkit-justify-content: space-between;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+		}
+		& span {
+			-webkit-flex-shrink: 1;
+			-ms-flex-negative: 1;
+			flex-shrink: 1;
+			padding-top: 0.375rem;
+			padding-bottom: 0.375rem;
+			padding-left: 0.65rem;
+			padding-right: 0.65rem;
+			@include wonui-btnbg-txtcolor-and-boxshadow( $uiAccent-t2, $rootDark, 'AA', 16, false );
+			& a {
+				@include won-ui-contrast-ratio-computed-fg( $uiAccent-t2 );
+			}
+			&.nav-previous {
+				margin-left: 0;
+				margin-bottom: 1.5rem;
+				@include roundedBrdrRadFourValues( 1rem, 0.25rem, 0.25rem, 1rem );
+			}
+			&.nav-next {
+				margin-right: 0;
+				@include roundedBrdrRadFourValues( 0.25rem, 1rem, 1rem, 0.25rem );
+			}
+		}
+	}
+}
+@media (min-width: 768px) {
+	.navigation {
+		&.post-navigation {
+			& .nav-links {
+				-webkit-flex-direction: row;
+				-ms-flex-direction: row;
+				flex-direction: row;
+			}
+			& span {
+				&.nav-previous {
+					margin-left: -1.5rem;
+					margin-bottom: 0;
+					padding-left: 1.5rem;
+					padding-right: 0.65rem;
+				}
+				&.nav-next {
+					margin-right: -1.5rem;
+					padding-left: 0.65rem;
+					padding-right: 1.5rem;
+				}
+			}
+		}
+	}
+}
+// -----Sidebar area styles------
+.wonui-sidebar {
+	@include wonui-contrast-computed-light-bg-and-fg( $wonui-body-bg, "AA", 16, false, 2 );
+	& .widget {
+		padding: 1rem;
+		margin-bottom: 3rem;
+		@include wonui-contrast-computed-light-bg-and-fg( $light-sidebar-block, "AA", 16, false, 2 );
+		@include wonui-minimal-box-shadow( $won-ui-root-dark );
+		@include roundedBrdrRadFourValues( 0.65rem, 0.65rem, 0.65rem, 0.65rem );
+		& h2 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			font-size: 2rem;
+			font-weight: 500;
+			line-height: 1.2;		
+			color: won-ui-harmonic-fgcolor( $light-sidebar-block, "AAA", 32, true );
+		}
+		& a {
+			@include won-ui-contrast-ratio-computed-fg( $light-sidebar-block, true, "AA", 16, false );
+		}
+	}
+}
+.wp-block-search {
+	& .wp-block-search__input, 
+	& input[type=search], 
+	& .form-control {
+		@include roundedBrdrRadSingleValue($theDefaultRad);
+	}
+	& .wp-block-search__button {
+		@include wonUiButtonPrimaryDarkBg;
+	}
+}
+
+/**
+* image styles and transition effects
+*/
+.img-fit-box {
+  @include imgFittedToBox(100%);
+}
+.img-fitBox {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/**
+* Video posts styles
+*/
+.media-holder {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    &::before {
+      display: block;
+      content: "";
+    }
+    & video, 
+    & iframe,
+    & embed, 
+    & object {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding-top: 0;
+        margin-top: 0;
+        object-fit: cover;
+        object-position: center;
+    }
+    &.video-link {
+        height: 40vh;
+        & video, 
+        & iframe,
+        & embed, 
+        & object {
+            top: 0;
+            bottom: 0; 
+        }
+    }
+    &.video-watch {
+        height: 50vh;
+        & video, 
+        & iframe,
+        & embed, 
+        & object {
+            top: 0;
+        }
+    }
+}
+.video-col {
+    & .card-video {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+/**
+* Audio posts styles
+*/
+
+.media-holder {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    &::before {
+      display: block;
+      content: "";
+    }
+    & audio,
+    & iframe {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding-top: 0;
+        margin-top: 0;
+        object-fit: cover;
+        object-position: center;
+    }
+    &.audio-link {
+        height: 40vh;
+        @include wonUiAudioSVGBg;
+        & audio {
+            top: 0;
+            bottom: 0;
+            padding-top: 0;
+            margin-top: 0;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.8;
+        }
+    }
+    &.audio-single {
+        height: 50vh;
+        @include wonUiAudioSVGBg;
+        & audio {
+            top: 0;
+            opacity: 0.8;
+        }
+    }
+}
+.audio-col {
+    & .card-audio {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+.wp-block-audio {
+    height: 50vh;
+    @include wonUiAudioSVGBg;
+    & audio {
+        position: absolute;
+        top: 30%;
+        left: 0;
+        & figcaption {
+             position: absolute;
+            top: 100%;
+        }
+    }
+}
+
+
+
+/*
+* footer area styles
+*/
+.wonui-footer {
+	@include wonui-footer-bg-and-txtcolor( $footer-dark-bg, "AA", 16, false, 1 );
+	& a, 
+	& .nav-link {
+		@include won-ui-contrast-ratio-computed-fg( $footer-dark-bg );
+	}
+	& .footer-logo {
+		padding-top: 0.3125rem;
+		padding-bottom: 0.3125rem;
+		margin-right: 1rem;
+		font-size: 1.25rem;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+}
+.footer-social-nav {
+	& .social-btn {
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0.5rem;
+		@include roundedBrdrRadSingleValue(50%);
+		@include wonUiButtonTransition( .3s, ease-in-out );
+		&.twitter {
+			@include wonui-btnbg-txtcolor-and-boxshadow( $footer-dark-bg-link, $rootWhite, "AAA", 32, true );
+			& .svg-icons {
+				@include won-ui-contrast-ratio-computed-svg-fill( $footer-dark-bg-link, true, "AAA", 32, true );
+			}
+		}
+		&.instagram {
+			@include wonui-btnbg-txtcolor-and-boxshadow( $footer-dark-bg-link, $rootWhite, "AAA", 32, true );
+			& .svg-icons {
+				@include won-ui-contrast-ratio-computed-svg-fill( $footer-dark-bg-link, true, "AAA", 32, true );
+			}
+		}
+		&.facebook {
+			@include wonui-btnbg-txtcolor-and-boxshadow( $footer-dark-bg-link, $rootWhite, "AAA", 32, true );
+			& .svg-icons {
+				@include won-ui-contrast-ratio-computed-svg-fill( $footer-dark-bg-link, true, "AAA", 32, true );
+			}
+		}
+	}
+	& .svg-icons {
+		vertical-align: 0;
+	}
+}
+
+// ----------Not Used yet styles----------------------------
+.top-wrapper {
+	color: darken($uiPrimary, 30%);
+	text-align: center;
+}
+.features-wrapper {
+	@include wonUiPageMainWrapperWithBgImg($rootWhite, darken($uiPrimary, 30%), $sectionWrapperBgSrc1);
+}
+/*
+* BS modal box custom styles for won ui
+*/
+// custom bs modal box styles
+.modal-signup,
+.modal-signin {
+	& .modal-content {
+		@include wonUiModalContentBgSvg($uiPrimary);
+		@include wonUiModalContentWithOutBgImg(lighten($uiAccent, 40%), none);
+		color: darken($uiAccent, 20%);
+	}
+	& .modal-header {
+		@include wonUiModalHeaderBottomBrdr(1px lighten($uiAccent, 40%) solid);
+		color: darken($uiAccent, 20%);
+	}
+	& .modal-footer {
+		@include flexContentsHorizontallyJustified;
+		@include wonUiModalFooterTopBrdr(1px lighten($uiAccent, 40%) solid);
+	}
+	& .form-control {
+		color: darken($uiAccent, 30%);
+	    background-color: lighten($uiAccent, 30%);
+	    border: 1px solid rgba($uiAccent, 0.5);
+	    box-shadow: inset 0 .5em 1.5em rgba($uiAccent, .1), inset 0 .125em .5em rgba($uiAccent, .15);
+	}
+	& .form-check-input:checked {
+	    background-color: darken($uiAccent, 10%);
+	    border-color: darken($uiAccent, 10%);
+	}
+	& a {
+		color: darken($uiAccent, 10%);
+		&:hover, 
+		&:focus {
+			color: darken($uiAccent, 20%);
+		}
+	}
+	.pw-show {
+		cursor: pointer;
+		& svg {
+			fill: none;
+			stroke: darken($uiAccent, 10%);
+		}
+	}	
+}
+
+.wonui-divider {
+	height: 3rem;
+}
+// features
+.feature-col {
+	@include light-features-block-on-main;
+}
+
+.staggered-none, 
+.staggered-down-25, 
+.staggered-down-40, 
+.staggered-down-50, 
+.staggered-up-25, 
+.staggered-up-40, 
+.staggered-up-50 {
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+
+  /*transform cards*/
+  .staggered-none {
+    transform: translateY(0);
+  }
+  .staggered-down-25 {
+    /*transform: translateY(25%);*/
+    @include translate-by-direction('down', 25%);
+  }
+  .staggered-down-40 {
+    transform: translateY(40%);
+  }
+  .staggered-down-50 {
+    transform: translateY(50%);
+  }
+  .staggered-up-25 {
+    transform: translateY(-25%);
+  }
+  .staggered-up-40 {
+    transform: translateY(-40%);
+  }
+  .staggered-up-50 {
+    transform: translateY(-50%);
+  }
+
+}
+
+
+#money-bag {
+	& path.inner {
+		fill: $uiPrimary;
+		stroke:none;
+	}
+}
+#logo {
+	& .c-part {
+		fill: lighten($uiPrimary, 30%);
+	}
+	& .b-part {
+		fill: lighten($uiPrimary, 40%);
+	}
+}
+
