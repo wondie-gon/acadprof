@@ -12,8 +12,7 @@ class Acadprof_Related_Posts extends Acadprof_Shortcode
      * 
      * @param string $theme_name Name of theme
      */
-    public function __construct( $shortcode, $theme_name )
-    {
+    public function __construct( $shortcode, $theme_name ) {
         $this->shortcode = $shortcode;
         parent::__construct( $theme_name );
     }
@@ -21,13 +20,13 @@ class Acadprof_Related_Posts extends Acadprof_Shortcode
     // get default attributes
     public function get_default_atts() {
         $this->default_atts = array(
-        'title'					=>	esc_html__( 'Related Posts', $this->theme_name ),
-		'tag'					=>	'',
-		'num_of_posts'			=>	'6',
-		'num_of_columns'		=>	'3',
-		'show_thumbnail'		=>	true,
-		'show_excerpt'			=>	true,
-		'show_button'			=>	true,
+            'title'					=>	esc_html__( 'Related Posts', $this->theme_name ),
+            'tag'					=>	'',
+            'num_of_posts'			=>	'6',
+            'num_of_columns'		=>	'3',
+            'show_thumbnail'		=>	true,
+            'show_excerpt'			=>	true,
+            'show_button'			=>	true,
         );
         return $this->default_atts;
     }
@@ -49,7 +48,7 @@ class Acadprof_Related_Posts extends Acadprof_Shortcode
         <?php
             // for invalid or empty tag attribute value
             $term = term_exists( $atts['tag'], 'post_tag' );
-            if ( $term === 0 || $term === null ) { ?>
+            if ( 0 === $term || null === $term ) { ?>
                 <div class="col-12 py-3">
                     <h3 class="h3">
                         <?php echo '[' . $this->shortcode . ' tag="term-slug"] '; ?>
@@ -216,6 +215,26 @@ class Acadprof_Related_Posts extends Acadprof_Shortcode
 
         // get post args
         return $args;
+    }
+
+    /**
+     * ==Helper method==
+     * Get responsive bootstrap class name to 
+     * be used for each post box
+     * 
+     * @param array $atts User defined attributes
+     * @return string Bootstrap class name for post blocks
+     */
+    public function get_responsive_bs_class( $atts ) {
+        // get postfix num of column class
+	    $postfix = 12 / $atts['num_of_columns'];
+
+        // concating with bs grid class
+        $classes = esc_attr( 'my-5 col-sm-6 col-md-' . $postfix );
+        // give space for each class name
+        $col_class = explode( ' ', $classes );
+
+        return $col_class;
     }
 
 } // End class

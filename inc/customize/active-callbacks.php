@@ -20,3 +20,10 @@ function acadprof_if_social_media_link_nav_enabled( $control ) {
 function acadprof_if_social_media_sharing_enabled( $control ) {
     return false != $control->manager->get_setting( 'enable_acadprof_social_media_sharing' )->value();
 }
+
+/**
+ * Checks if featured section was enabled
+ */
+function acadprof_is_featured_posts_enabled( $control ) {
+    return ( false != $control->manager->get_setting( 'acadprof_featured_posts_enabled' )->value() ) ? true : false;
+}

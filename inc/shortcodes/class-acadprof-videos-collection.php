@@ -244,4 +244,24 @@ class Acadprof_Videos_Collection extends Acadprof_Shortcode
         return $args;
     }
 
+    /**
+     * ==Helper method==
+     * Get responsive bootstrap class name to 
+     * be used for each post box
+     * 
+     * @param array $atts User defined attributes
+     * @return string Bootstrap class name for post blocks
+     */
+    public function get_responsive_bs_class( $atts ) {
+        // get postfix num of column class
+	    $postfix = 12 / $atts['num_of_columns'];
+
+        // concating with bs grid class
+        $classes = esc_attr( 'my-5 col-sm-6 col-md-' . $postfix );
+        // give space for each class name
+        $col_class = explode( ' ', $classes );
+
+        return $col_class;
+    }
+
 } // End class

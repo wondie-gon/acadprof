@@ -1,10 +1,25 @@
-<?php 
-class Acadprof_Shortcodes
-{
+<?php
+/**
+ * Class to add all shortcodes
+ * 
+ * @package Acadprof
+ * @since 1.0.0
+ * 
+ */
+// restrict direct access
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+class Acadprof_Shortcodes {
+    /**
+     * theme's text domain
+     */
     public $theme_name;
 
-    public function __construct( $theme_name )
-    {
+    /**
+     * Constuctor function
+     */
+    public function __construct( $theme_name ) {
         $this->theme_name = $theme_name;
 
         // load shortcode classes
@@ -17,6 +32,9 @@ class Acadprof_Shortcodes
        add_action( 'init', array( $this, 'addShortcodes' ) );
     }
 
+    /**
+     * Loads all shortcodes
+     */
     public function load_shortcode_classes() {
         // load abstract 'Acadprof_Shortcode'
         require get_template_directory() . '/inc/shortcodes/abstract-acadprof-shortcode.php';
@@ -24,17 +42,27 @@ class Acadprof_Shortcodes
         // load class for related posts shortcodes
         require get_template_directory() . '/inc/shortcodes/class-acadprof-related-posts.php';
 
-        // load class 'RD_Audios_Collection' shortcodes
+        // load class for more posts block posts shortcodes
+        require get_template_directory() . '/inc/shortcodes/class-acadprof-more-posts-block.php';
+
+        // load class 'Acadprof_Audios_Collection' shortcodes
         require get_template_directory() . '/inc/shortcodes/class-acadprof-audios-collection.php';
 
-        // load class 'RD_Videos_Collection' shortcodes
+        // load class 'Acadprof_Videos_Collection' shortcodes
         require get_template_directory() . '/inc/shortcodes/class-acadprof-videos-collection.php';
     }
 
-    // method to add shortcodes
+    /**
+     * Adds shortcodes all in one
+     */
     public function addShortcodes() {
-        // instantiate 'RD_Related_Posts' shortcode class
+        // instantiate 'Acadprof_Related_Posts' shortcode class
         $related_posts = new Acadprof_Related_Posts( 'acadprof_related_posts', $this->theme_name );
+        // add shortcode
+        $related_posts->add_shortcode();
+
+        // instantiate 'Acadprof_More_Posts_Block' shortcode class
+        $related_posts = new Acadprof_More_Posts_Block( 'acadprof-more-posts', $this->theme_name );
         // add shortcode
         $related_posts->add_shortcode();
 

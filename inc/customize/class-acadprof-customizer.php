@@ -23,6 +23,9 @@ if ( ! class_exists( 'Acadprof_Customizer' ) ) {
             add_action( 'customize_preview_init', array( $this, 'customize_preview_js' ) );
             add_action( 'wp_head', array( $this, 'customize_css_out' ) );
             add_action( 'customize_controls_enqueue_scripts', array( $this, 'custom_controls_js' ) );
+
+            // Load all other customizers
+            $this->load_all_customizers();
         }
         /**
          * Adds custom controls
@@ -32,9 +35,14 @@ if ( ! class_exists( 'Acadprof_Customizer' ) ) {
         public function custom_controls( $wp_customize ) {
             // loading custom control classes
             require_once( get_template_directory() . '/inc/customize/controls/acadprof-image-radio-control.php' );
+            require_once( get_template_directory() . '/inc/customize/controls/acadprof-post-dropdown-custom-control.php' );
+            require_once( get_template_directory() . '/inc/customize/controls/acadprof-custom-separator.php' );
 
             // registering custom controls
             $wp_customize->register_control_type( 'Acadprof_Image_Radio_Control' );
+            $wp_customize->register_control_type( 'Acadprof_Post_Dropdown_Custom_Control' );
+            
+            $wp_customize->register_control_type( 'Acadprof_Separator_Custom_Control' );
         }
 
         /**
@@ -114,6 +122,20 @@ if ( ! class_exists( 'Acadprof_Customizer' ) ) {
                 }
             }
             return $css_output;
+        }
+
+        /**
+         * Loads all customizers
+         */
+        public function load_all_customizers() {
+            // loading theme layout customizer
+            require_once( get_template_directory() . '/inc/customize/class-acadprof-theme-layout.php' );
+            // loading excerpt layout customizer
+            require_once( get_template_directory() . '/inc/customize/class-acadprof-customize-posts-layout.php' );
+            // loading social media customizer
+            require_once( get_template_directory() . '/inc/customize/class-acadprof-customize-social-media.php' );
+            // loading featured posts customizer
+            require_once( get_template_directory() . '/inc/customize/class-acadprof-customize-featured-posts.php' );
         }
     }
     
