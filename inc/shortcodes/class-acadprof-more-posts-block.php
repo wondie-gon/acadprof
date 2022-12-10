@@ -43,13 +43,15 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                 'loads_by_btn'      =>  true, 
                 'btn_text'          =>  esc_html__( 'Load More Posts', $this->theme_name ), 
                 'post_type'         => 'post', 
-                'posts_per_page'    => '4', 
+                'posts_per_page'    => '8', 
+                'exclude_ids'       =>	'', 
                 'order'			    =>	'DESC', 
                 'tag'				=>	'', 
                 'columns_lg'		=>	'4', 
                 'columns_md'		=>	'3', 
                 'columns_sm'		=>	'2', 
-                'show_thumbnail'	=>	true,
+                'show_thumbnail'	=>	true, 
+                'img_size_name'	    =>	'medium', 
                 'show_excerpt'		=>	true,
             );
             return $this->default_atts;
@@ -69,6 +71,9 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
             // get post object
             $post = get_post();
 
+            if ( empty( $atts['exclude_ids'] ) ) {
+                $atts['exclude_ids'] = $post->ID;
+            }
             /**
              * Filters the default more posts block shortcode output
              * 
@@ -115,6 +120,7 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                     array ( 
                         'post_type' => $atts['post_type'], 
                         'posts_per_page' => absint( $atts['posts_per_page'] ), 
+                        'post__not_in'  =>  $atts['exclude_ids'],
                         'order' => $atts['order'], 
                     ) 
                 );
@@ -122,10 +128,15 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                 // Posts
                 while ( $the_query->have_posts() ) {
                     $the_query->the_post();
-                    $output .= '<div ' . get_post_class( $col_class ) . '>';
+                    $output .= '<div class="' . esc_attr( implode( ' ', get_post_class( $col_class ) ) ) . '">';
+                    // var_dump( get_post_class( $col_class ) );
+                    // show thumbnail
+                    if ( true === $atts['show_thumbnail'] && has_post_thumbnail() ) {
+                        $output .= '<a href="' . get_the_permalink() . '" aria-hidden="true" tabindex="-1">' . acadprof_get_the_post_thumbnail( get_the_ID(), $atts['img_size_name'], 'img-fluid d-block mb-2' ) . '</a>';
+                    }
                     // title of post
                     $output .= sprintf( 
-                        '<h3><a href="%1$s" rel="bookmark">%2$s</a></h3>', 
+                        '<h4><a href="%1$s" rel="bookmark">%2$s</a></h4>', 
                         esc_url( get_permalink() ), 
                         sprintf( __( '%s', $this->theme_name ), 
                             esc_html( get_the_title() )
@@ -190,7 +201,16 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
             if ( ! empty( $atts['title'] ) ) {
                 $atts['title'] = sanitize_text_field( $atts['title'] );
             }
+            // validating ids to exclude
+            if ( ! is_array( $atts['exclude_ids'] ) && ! empty( $atts['exclude_ids'] ) ) {
+                $atts['exclude_ids'] = ( array ) $atts['exclude_ids'];
 
+                foreach ( $atts['exclude_ids'] as &$value ) {
+                    $value = ( int ) $value;
+                }
+                // break the reference with the last element
+                unset( $value );
+            }
             // post tags
             if ( ! empty( $atts['tag'] ) ) {
                 $term = term_exists( $atts['tag'], 'post_tag' );
@@ -311,12 +331,14 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                     '_btn_text'             =>  $atts['btn_text'], 
                     '_post_type'            =>  $atts['post_type'], 
                     '_posts_per_page'       =>  $atts['posts_per_page'], 
+                    '_exclude_ids'          =>  $atts['exclude_ids'], 
                     '_order'			    =>  $atts['order'], 
                     '_tag'				    =>	$atts['tag'], 
                     '_columns_lg'           =>	$atts['columns_lg'], 
                     '_columns_md'           =>	$atts['columns_md'], 
                     '_columns_sm'           =>	$atts['columns_sm'], 
-                    '_show_thumbnail'       =>	$atts['show_thumbnail'],
+                    '_show_thumbnail'       =>	$atts['show_thumbnail'], 
+                    '_img_size_name'       =>	$atts['img_size_name'], 
                     '_show_excerpt'	        =>	$atts['show_excerpt'],
                 );
                 // merge to $arr_to_localize
