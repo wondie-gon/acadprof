@@ -24,5 +24,4 @@ $block_args = array(
 $post_layout_mod = get_theme_mod( 'acadprof_excerpt_image_layout' );
 
 Acadprof_Post_Excerpt_Layout::show_post_block( $post_layout_mod, $block_args );
-?>
 
