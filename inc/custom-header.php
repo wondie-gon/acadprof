@@ -8,6 +8,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Hook custom headers callback to 'after_setup_theme' action hook
+ */
 add_action( 'after_setup_theme', 'acadprof_custom_header_setup' );
 
 if ( ! function_exists( 'acadprof_custom_header_setup' ) ) {
@@ -16,44 +19,75 @@ if ( ! function_exists( 'acadprof_custom_header_setup' ) ) {
 	 */
 	function acadprof_custom_header_setup() {
 
+		$acadprof_custom_hdr_args = array(
+			'width'         		=>	980,
+			'flex-width'			=>	true,
+			'height'        		=>	200,
+			'flex-height'   		=>	true,
+			'default-text-color'	=>	'#BECCD4',
+			'header-text'			=> 	true,
+			'uploads'               => 	true,
+			'default-image' 		=>	get_template_directory_uri() . '/assets/images/ap-header-img.jpg',
+		);
+
 		/**
-		 * Filter Acadprof custom-header support arguments.
+		 * Filter acadprof custom-header support arguments.
 		 *
-		 * @since Acadprof 0.5.2
+		 * @since 1.0
 		 *
-		 * @param array $args {
+		 * @param array $acadprof_custom_hdr_args {
 		 *     An array of custom-header support arguments.
-		 *
-		 *     @type string $default-image          Default image of the header.
-		 *     @type string $default_text_color     Default color of the header text.
-		 *     @type int    $width                  Width in pixels of the custom header image. Default 954.
-		 *     @type int    $height                 Height in pixels of the custom header image. Default 1300.
-		 *     @type string $wp-head-callback       Callback function used to styles the header image and text
-		 *                                          displayed on the blog.
-		 *     @type string $flex-height            Flex support for height of header.
+		 * 
+		 *     	@type int		'width'					Width in pixels of the custom 
+		 * 												header image. Default 980.
+		 * 		@type string	'flex-width'            Flex support for width of header.
+		 *     	@type int		'height'				Height in pixels of the custom 
+		 * 												header image. Default 200.
+		 * 		@type string	'flex-height'			Flex support for height of header.
+		 * 		@type string	'default-text-color'	Default color of the header text.
+		 * 		@type bool		'header-text'			Display the header text along 
+		 * 												with the image.
+		 * 		@type bool		'uploads'				Enable upload of image file 
+		 * 												in admin.
+		 * 		@type string	'default-image'     	Default image of the header. 	
 		 * }
 		 */
+		$acadprof_custom_hdr_args = apply_filters( 'acadprof_custom_header_args', $acadprof_custom_hdr_args );
+
+		// add to theme support
+		add_theme_support( 'custom-header', $acadprof_custom_hdr_args );
+/*
 		add_theme_support(
 			'custom-header',
 			apply_filters(
 				'acadprof_custom_header_args',
 				array(
-					'default-image' => get_parent_theme_file_uri( '/img/header.jpg' ),
-					'width'         => 2000,
-					'height'        => 1200,
-					'flex-height'   => true,
+					'width'         =>	980,
+					'flex-width'	=>	true,
+					'height'        =>	200,
+					'flex-height'   =>	true,
+					'default-image' => get_parent_theme_file_uri( '/assets/images/ap-header-img.jpg' ),
 				)
 			)
 		);
-
-		register_default_headers(
-			array(
-				'default-image' => array(
-					'url'           => '%s/img/header.jpg',
-					'thumbnail_url' => '%s/img/header.jpg',
-					'description'   => __( 'Default Header Image', 'acadprof' ),
-				),
-			)
+*/
+		/**
+		 * Registering defualt images for custom header
+		 */
+		$acadprof_default_header_imgs = array(
+			'ap-header-img'	=>	array(
+				'url'		=>	'%s/assets/images/ap-header-img.jpg',
+				'thumbnail_url'	=>	'%s/assets/images/ap-header-img_thumbnail.jpg',
+				'description'	=>	__( 'Default Header Image Light', 'acadprof' ),
+			),
+			'ap-header-img-alt'	=>	array(
+				'url'		=>	'%s/assets/images/ap-header-img-alt.jpg',
+				'thumbnail_url'	=>	'%s/assets/images/ap-header-img-alt_thumbnail.jpg',
+				'description'	=>	__( 'Default Header Image Dark', 'acadprof' ),
+			),
 		);
+
+		// register default header images
+		register_default_headers( $acadprof_default_header_imgs );
 	}
 }

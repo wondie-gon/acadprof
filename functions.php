@@ -36,9 +36,6 @@ $acadprof_includes = array(
 	'/customize/active-callbacks.php',    							// customizer active callbacks
 	'/customize/sanitize-callbacks.php',    						// customizer sanitize callbacks
 	'/customize/class-acadprof-customizer.php',     				// General customizer
-	// '/customize/class-acadprof-theme-layout.php',   				// Theme layout customizer
-	// '/customize/class-acadprof-customize-posts-layout.php',     	// posts customizer
-	// '/customize/class-acadprof-customize-social-media.php',     	// social media links customizer
 	'/template-tags.php',                   						// Custom template tags
 	'/pagination.php',                      						// Custom pagination for this theme.
 	'/custom-comments.php', 										// custom comments template hooks

@@ -19,16 +19,10 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-
 <div id="comments" class="comments-area">
-
-	<?php // You can start editing here -- including this comment! ?>
-
-	<?php if ( have_comments() ) : ?>
-
+	<?php if ( have_comments() ) { ?>
 		<h2 class="comments-title">
-
-			<?php
+		<?php
 			$comments_number = get_comments_number();
 			if ( 1 === (int) $comments_number ) {
 				printf(
@@ -52,31 +46,24 @@ if ( post_password_required() ) {
 					'<span>' . get_the_title() . '</span>'
 				);
 			}
-			?>
-
+		?>
 		</h2><!-- .comments-title -->
-
-		<?php acadprof_comment_navigation( 'comment-nav-above' ); ?>
-
-		<ol class="comment-list">
-
-			<?php
+		<ol class="comment-list commentlist">
+		<?php
 			wp_list_comments(
 				array(
 					'style'      => 'ol',
 					'short_ping' => true,
 				)
 			);
-			?>
-
+		?>
 		</ol><!-- .comment-list -->
-
-		<?php acadprof_comment_navigation( 'comment-nav-below' ); ?>
-
-	<?php endif; // End of if have_comments(). ?>
-
+		<?php acadprof_comments_pagination( 'comment-nav-below' ); ?>
+	<?php } // End of if have_comments(). ?>
+	<div id="respond">
 	<?php
-		comment_form(); // Render comments form
+		// Render comments form
+		comment_form();
 	?>
-
+	</div>
 </div><!-- #comments -->

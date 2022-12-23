@@ -42,8 +42,8 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                 'loads_async'       =>  true, 
                 'loads_by_btn'      =>  true, 
                 'btn_text'          =>  esc_html__( 'Load More Posts', $this->theme_name ), 
-                'post_type'         => 'post', 
-                'posts_per_page'    => '8', 
+                'post_type'         =>  'post', 
+                'posts_per_page'    =>  '8', 
                 'exclude_ids'       =>	'', 
                 'order'			    =>	'DESC', 
                 'tag'				=>	'', 
@@ -224,19 +224,31 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
                 $atts['posts_per_page'] = ! is_int( $atts['posts_per_page'] ) ? ( int ) $atts['posts_per_page'] : $atts['posts_per_page'];
             }
 
-            // number of columns at large
+            // allowed column numbers
+            $allowed_cols = array( 1, 2, 3, 4, 6, 12 );
+
+            // number of columns on large device
             if ( ! empty( $atts['columns_lg'] ) ) {
+                // should be integer data type
                 $atts['columns_lg'] = ! is_int( $atts['columns_lg'] ) ? ( int ) $atts['columns_lg'] : $atts['columns_lg'];
+                // check if given column number is allowed
+                $atts['columns_lg'] = $this->is_allowed_val( $atts['columns_lg'], $allowed_cols ) ? $atts['columns_lg'] : 4;
             }
 
-            // number of columns at medium
+            // number of columns on medium device
             if ( ! empty( $atts['columns_md'] ) ) {
+                // should be integer data type
                 $atts['columns_md'] = ! is_int( $atts['columns_md'] ) ? ( int ) $atts['columns_md'] : $atts['columns_md'];
+                // check if given column number is allowed
+                $atts['columns_md'] = $this->is_allowed_val( $atts['columns_md'], $allowed_cols ) ? $atts['columns_md'] : 3;
             }
 
-            // number of columns at small
+            // number of columns on small device
             if ( ! empty( $atts['columns_sm'] ) ) {
                 $atts['columns_sm'] = ! is_int( $atts['columns_sm'] ) ? ( int ) $atts['columns_sm'] : $atts['columns_sm'];
+                // should be integer data type
+                // check if given column number is allowed
+                $atts['columns_sm'] = $this->is_allowed_val( $atts['columns_sm'], $allowed_cols ) ? $atts['columns_sm'] : 2;
             }
 
             // sanitize btn text
@@ -252,6 +264,20 @@ if ( ! class_exists( 'Acadprof_More_Posts_Block' ) ) {
 
             // get valid atts
             return $atts;
+        }
+
+        /**
+         * Checks if passed value is part of the allowed values
+         * 
+         * @param string/int $val       Needle to check if it is in allowed array
+         * @param array $allowed_vals   Array of allowed values as a haystack
+         * @return bool                 True if $val is in the allowed list, otherwise false 
+         */
+        public function is_allowed_val( $val, $allowed_vals = array() ) {
+            if ( in_array( $val, $allowed_vals ) ) {
+                return true;
+            }
+            return false;
         }
 
         /**

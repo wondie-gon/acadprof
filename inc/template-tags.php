@@ -192,39 +192,6 @@ if ( ! function_exists( 'acadprof_body_attributes' ) ) {
 	}
 }
 
-if ( ! function_exists( 'acadprof_comment_navigation' ) ) {
-	/**
-	 * Displays the comment navigation.
-	 *
-	 * @param string $nav_id The ID of the comment navigation.
-	 */
-	function acadprof_comment_navigation( $nav_id ) {
-		if ( get_comment_pages_count() <= 1 ) {
-			// Return early if there are no comments to navigate through.
-			return;
-		}
-		?>
-		<nav class="comment-navigation" id="<?php echo esc_attr( $nav_id ); ?>">
-
-			<h1 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'acadprof' ); ?></h1>
-
-			<?php if ( get_previous_comments_link() ) { ?>
-				<div class="nav-previous">
-					<?php previous_comments_link( __( '&larr; Older Comments', 'acadprof' ) ); ?>
-				</div>
-			<?php } ?>
-
-			<?php if ( get_next_comments_link() ) { ?>
-				<div class="nav-next">
-					<?php next_comments_link( __( 'Newer Comments &rarr;', 'acadprof' ) ); ?>
-				</div>
-			<?php } ?>
-
-		</nav><!-- #<?php echo esc_attr( $nav_id ); ?> -->
-		<?php
-	}
-}
-
 if ( ! function_exists( 'acadprof_edit_post_link' ) ) {
 	/**
 	 * Displays the edit post link for post.
