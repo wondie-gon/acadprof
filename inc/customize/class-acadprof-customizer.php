@@ -58,7 +58,7 @@ if ( ! class_exists( 'Acadprof_Customizer' ) ) {
         }
         /**
          * Action to be hooked to 'wp_head'
-         * This will output the custom WordPress settings to the live theme's WP head.
+         * This will output style changes of the cstomizer.
          * 
          */
         public function customize_css_out() {
