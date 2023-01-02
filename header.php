@@ -7,7 +7,7 @@
  * @package Acadprof
  */
 
-// Exit if accessed directly.
+// Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
 $bootstrap_version = get_theme_mod( 'acadprof_bootstrap_version', 'bootstrap4' );
