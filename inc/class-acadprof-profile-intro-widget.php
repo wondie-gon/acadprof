@@ -205,7 +205,7 @@ class Acadprof_Profile_Intro_Widget extends WP_Widget {
 		            type="url"
 		            id="<?php echo esc_attr( $this->get_field_id( 'img_src' ) ); ?>"
 		            name="<?php echo esc_attr( $this->get_field_name( 'img_src' ) ); ?>"
-		            value="<?php echo esc_attr( $img_src ); ?>" 
+		            value="<?php echo esc_url( $img_src ); ?>" 
 		            class="widefat"
 		        />
 		    </p>
@@ -310,7 +310,7 @@ class Acadprof_Profile_Intro_Widget extends WP_Widget {
 		            id="<?php echo esc_attr( $this->get_field_id( 'resume_intro' ) ); ?>"
 		            name="<?php echo esc_attr( $this->get_field_name( 'resume_intro' ) ); ?>"
 		            placeholder="<?php esc_html_e( 'Write resume summary', 'acadprof' ); ?>">
-		            <?php echo esc_attr( $resume_intro ); ?>
+		            <?php echo esc_html( $resume_intro ); ?>
 		            </textarea>
 		    </p>
 

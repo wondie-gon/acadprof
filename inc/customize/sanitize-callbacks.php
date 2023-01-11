@@ -45,26 +45,6 @@ function acadprof_sanitize_choices( $input, $setting ) {
 }
 
 /**
- * Select sanitization function
- *
- * @param string               $input   Slug to sanitize.
- * @param WP_Customize_Setting $setting Setting instance.
- * @return string Sanitized slug if it is a valid choice; otherwise, the setting default.
- */
-function acadprof_theme_slug_sanitize_select( $input, $setting ) {
-
-	// Ensure input is a slug (lowercase alphanumeric characters, dashes and underscores are allowed only).
-	$input = sanitize_key( $input );
-
-	// Get the list of possible select options.
-	$choices = $setting->manager->get_control( $setting->id )->choices;
-
-	// If the input is a valid key, return it; otherwise, return the default.
-	return ( array_key_exists( $input, $choices ) ? $input : $setting->default );
-
-}
-
-/**
  * Sanitization Number
  *
  * @param number $input		Customizer setting input number

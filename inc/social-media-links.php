@@ -197,7 +197,7 @@ if ( ! function_exists( 'acadprof_post_social_media_share_links' ) ) :
             if ( $share_to_linkedin )  :
         ?>
             <li class="nav-item acadprof_social_item"> 
-                <a title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo get_permalink(); ?>&title=<?php echo get_the_title() . ' - '; bloginfo( 'name' ); ?>&summary=<?php echo get_the_title() . ' - '; bloginfo( 'name' ); ?>" class="nav-link social-share-link social_linkden" data-toggle="pill"><i class="d-block fab fa-linkedin-in"></i></a> 
+                <a title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo get_permalink(); ?>&title=<?php echo get_the_title() . ' - '; bloginfo( 'name' ); ?>&summary=<?php echo get_the_title() . ' - '; bloginfo( 'name' ); ?>" class="nav-link social-share-link social_linkedin" data-toggle="pill"><i class="d-block fab fa-linkedin-in"></i></a> 
             </li>
         <?php
 

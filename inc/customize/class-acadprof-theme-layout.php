@@ -96,7 +96,7 @@ if ( ! class_exists( 'Acadprof_Theme_Layout' ) ) {
                 array(
                     'default'           => 'container',
                     'type'              => 'theme_mod',
-                    'sanitize_callback' => 'acadprof_theme_slug_sanitize_select',
+                    'sanitize_callback' => 'acadprof_sanitize_choices',
                     'capability'        => 'edit_theme_options',
                 )
             );
@@ -149,7 +149,7 @@ if ( ! class_exists( 'Acadprof_Theme_Layout' ) ) {
                         'section'           => 'acadprof_theme_layout_options',
                         'settings'          => 'acadprof_navbar_type',
                         'type'              => 'select',
-                        'sanitize_callback' => 'acadprof_theme_slug_sanitize_select',
+                        'sanitize_callback' => 'acadprof_sanitize_choices',
                         'choices'           => array(
                             'collapse'  => __( 'Collapse', 'acadprof' ),
                             'offcanvas' => __( 'Offcanvas', 'acadprof' ),
@@ -186,7 +186,7 @@ if ( ! class_exists( 'Acadprof_Theme_Layout' ) ) {
                         'section'           => 'acadprof_theme_layout_options',
                         'settings'          => 'acadprof_sidebar_position',
                         'type'              => 'select',
-                        'sanitize_callback' => 'acadprof_theme_slug_sanitize_select',
+                        'sanitize_callback' => 'acadprof_sanitize_choices',
                         'choices'           => array(
                             'right' => __( 'Right sidebar', 'acadprof' ),
                             'left'  => __( 'Left sidebar', 'acadprof' ),
