@@ -129,7 +129,7 @@ if ( ! class_exists( 'Acadprof_Theme_Layout' ) ) {
                 array(
                     'default'           => 'collapse',
                     'type'              => 'theme_mod',
-                    'sanitize_callback' => 'sanitize_text_field',
+                    'sanitize_callback' => 'acadprof_sanitize_choices',
                     'capability'        => 'edit_theme_options',
                 )
             );
@@ -166,7 +166,7 @@ if ( ! class_exists( 'Acadprof_Theme_Layout' ) ) {
                 array(
                     'default'           => 'right',
                     'type'              => 'theme_mod',
-                    'sanitize_callback' => 'sanitize_text_field',
+                    'sanitize_callback' => 'acadprof_sanitize_choices',
                     'capability'        => 'edit_theme_options',
                 )
             );
