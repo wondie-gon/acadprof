@@ -59,7 +59,7 @@ if ( ! function_exists( 'acadprof_category_tag_links' ) ) {
 	function acadprof_category_tag_links() {
 		// Hide category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
-			/* translators: used between list items, there is a space after the comma */
+			// get list of categories
 			$categories_list = get_the_category_list( ' ' );
 			if ( $categories_list && acadprof_categorized_blog() ) {
 				/* translators: %s: Categories of current post */
@@ -69,7 +69,7 @@ if ( ! function_exists( 'acadprof_category_tag_links' ) ) {
 
 				); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
-			/* translators: used between list items, there is a space after the comma */
+			// get list of tags
 			$tags_list = get_the_tag_list( '', ' | ' );
 			if ( $tags_list ) {
 				/* translators: %s: Tags of current post */
